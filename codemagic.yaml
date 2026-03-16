@@ -1,21 +1,28 @@
 workflows:
   ios-workflow:
-    name: iOS IPA build
+    name: iOS Build
     environment:
       flutter: stable
       xcode: latest
 
     scripts:
-      - name: Enter Flutter project
+      - name: Change project directory
+        script: cd Clouvex_Project
+
+      - name: Flutter clean
+        script: flutter clean
+
+      - name: Get packages
+        script: flutter pub get
+
+      - name: Install pods
         script: |
-          cd Clouvex_Project
-          flutter clean
-          flutter pub get
+          cd ios
+          pod install
+          cd ..
 
       - name: Build IPA
-        script: |
-          cd Clouvex_Project
-          flutter build ipa --release --no-codesign
+        script: flutter build ipa --release --no-codesign
 
     artifacts:
       - Clouvex_Project/build/ios/ipa/*.ipa
