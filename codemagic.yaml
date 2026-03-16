@@ -6,7 +6,7 @@ workflows:
       xcode: latest
 
     scripts:
-      - name: Set project directory
+      - name: Change directory to Flutter project
         script: cd Clouvex_Project
 
       - name: Flutter clean
@@ -18,14 +18,6 @@ workflows:
         script: |
           cd Clouvex_Project
           flutter pub get
-
-      - name: Install pods
-        script: |
-          cd Clouvex_Project/ios
-          rm -rf Pods
-          rm -f Podfile.lock
-          pod repo update
-          pod install --repo-update
 
       - name: Build IPA
         script: |
