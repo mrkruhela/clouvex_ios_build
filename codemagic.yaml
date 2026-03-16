@@ -19,14 +19,17 @@ workflows:
           pod install
           cd ..
 
-      - name: Build iOS archive
-        script: flutter build ios --release
+      - name: Build archive
+        script: flutter build ios --release --no-codesign
 
       - name: Export IPA
-        script: flutter build ipa --release --no-codesign
+        script: |
+          xcodebuild -exportArchive \
+          -archivePath build/ios/archive/Runner.xcarchive \
+          -exportOptionsPlist ios/ExportOptions.plist \
+          -exportPath build/ios/ipa
 
     artifacts:
       - build/ios/ipa/*.ipa
       - build/ios/archive/*.xcarchive
-      - build/ios/iphoneos/*.app
       - /tmp/xcodebuild_logs/*.log
