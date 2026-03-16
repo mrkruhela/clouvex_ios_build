@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:bedrive/firebase_options.dart';
+// import 'package:clouvex/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -17,9 +17,7 @@ Future<FirebaseMessaging?> firebaseMessaging(FirebaseMessagingRef ref) async {
   final api = ref.read(apiClientProvider).requireValue;
 
   try {
-    await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
-    );
+    await Firebase.initializeApp();
   } catch (e) {
     return null;
   }
@@ -40,8 +38,6 @@ Future<FirebaseMessaging?> firebaseMessaging(FirebaseMessagingRef ref) async {
     });
 
     // user tapped on firebase notification, while app was in background or closed.
-    // firebase will show the notification itself in this case, based on payload title and body,
-    // there's no need to call "localNotifications.show" manually
     FirebaseMessaging.onMessageOpenedApp.listen((e) {
       localNotifications.handleNotificationTapped(json.encode(e.data));
     });
@@ -50,7 +46,7 @@ Future<FirebaseMessaging?> firebaseMessaging(FirebaseMessagingRef ref) async {
   // sync fcm token with backend
   ref.listen(
     authStateProvider,
-    (_, next) async {
+        (_, next) async {
       final user = next.value;
       if (user != null) {
         final currentToken = await fm.getToken();
