@@ -1,0 +1,16 @@
+workflows:
+  ios-workflow:
+    name: iOS Workflow
+    environment:
+      flutter: stable
+    scripts:
+      - name: Flutter clean
+        script: flutter clean
+      - name: Get packages
+        script: flutter pub get
+      - name: Install pods
+        script: |
+          cd ios
+          pod install
+      - name: Build iOS
+        script: flutter build ios --release
