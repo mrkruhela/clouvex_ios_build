@@ -6,26 +6,31 @@ workflows:
       xcode: latest
 
     scripts:
-      - name: Flutter precache
-        script: flutter precache --ios
+      - name: Set project directory
+        script: cd Clouvex_Project
 
       - name: Flutter clean
-        script: flutter clean
+        script: |
+          cd Clouvex_Project
+          flutter clean
 
       - name: Get packages
-        script: flutter pub get
+        script: |
+          cd Clouvex_Project
+          flutter pub get
 
       - name: Install pods
         script: |
-          cd ios
+          cd Clouvex_Project/ios
           rm -rf Pods
           rm -f Podfile.lock
           pod repo update
           pod install --repo-update
-          cd ..
 
       - name: Build IPA
-        script: flutter build ipa --release --no-codesign
+        script: |
+          cd Clouvex_Project
+          flutter build ipa --release --no-codesign
 
     artifacts:
-      - build/ios/ipa/*.ipa
+      - Clouvex_Project/build/ios/ipa/*.ipa
