@@ -6,17 +6,10 @@ workflows:
       xcode: latest
 
     scripts:
-      - name: Change directory to Flutter project
-        script: cd Clouvex_Project
-
-      - name: Flutter clean
+      - name: Enter Flutter project
         script: |
           cd Clouvex_Project
           flutter clean
-
-      - name: Get packages
-        script: |
-          cd Clouvex_Project
           flutter pub get
 
       - name: Build IPA
